@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block meta_title %}{{ meta_title ?? 'ColocChaleureuse' }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ meta_desc ?? 'Gestion éco-conçue de colocation.' }}{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="{% block og_title %}{{ meta_title ?? 'ColocChaleureuse' }}{% endblock %}">
+    <meta property="og:type" content="website">
+    
+    <style>
+        :root {
+            --primary: #ffaa00;
+            --dark-brown: #553900;
+            --gold: #aa7100;
+            --bg-light: #fffdf9;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--dark-brown);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: var(--dark-brown);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; }
+        header {
+            background-color: var(--primary);
+            padding: 1rem;
+            border-bottom: 4px solid var(--gold);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: var(--dark-brown);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover, nav a:focus {
+            text-decoration: underline;
+            outline: 2px solid var(--dark-brown);
+        }
+        main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        footer {
+            background-color: var(--dark-brown);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+        .btn {
+            background-color: var(--primary);
+            color: var(--dark-brown);
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Passer au contenu principal</a>
+    <header role="banner">
+        <nav role="navigation" aria-label="Menu principal">
+            <ul>
+                <li><a href="{{ path('app_home') }}">{{ 'nav.home'|trans }}</a></li>
+                {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('app_chores') }}">{{ 'nav.chores'|trans }}</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_TENANT') %}
+                    <li><a href="{{ path('app_tenant_dashboard') }}">{{ 'nav.tenant_space'|trans }}</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_OWNER') %}
+                    <li><a href="{{ path('app_owner_dashboard') }}">{{ 'nav.owner_space'|trans }}</a></li>
+                {% endif %}
+                <li>
+                    {% if app.user %}
+                        <a href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn">{{ 'nav.login'|trans }}</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+        {% block body %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ColocChaleureuse. Conçu avec amour et GreenIT.</p>
+    </footer>
+</body>
+</html>

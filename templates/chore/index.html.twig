@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Le Semainier des Colocs 🧹</h1>
+<p>Organisation collective et détendue de la maison. Chaque tâche accomplie rapporte des points !</p>
+
+<style>
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+        margin-top: 2rem;
+    }
+    .day-card {
+        border: 2px solid var(--gold);
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    .day-card h2 {
+        background: var(--primary);
+        margin: -10px -10px 10px -10px;
+        padding: 5px;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    .task-item {
+        background: #fbf0db;
+        border-left: 4px solid var(--gold);
+        padding: 5px;
+        margin-bottom: 8px;
+        font-size: 0.85rem;
+    }
+    .badge {
+        display: inline-block;
+        background: var(--dark-brown);
+        color: white;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+    }
+</style>
+
+<div class="calendar-grid">
+    {% for day in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+        <div class="day-card">
+            <h2>{{ day }}</h2>
+            {% if day == 'Lundi' %}
+                <div class="task-item">
+                    <strong>Vaisselle</strong> <br>
+                    <span class="badge">Sophie</span>
+                </div>
+            {% elseif day == 'Mercredi' %}
+                <div class="task-item">
+                    <strong>Ménage Salon</strong> <br>
+                    <span class="badge">Julien</span>
+                </div>
+            {% else %}
+                <p style="font-size:0.8rem; color: gray; text-align:center;">Rien de prévu</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

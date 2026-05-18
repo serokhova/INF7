@@ -1,0 +1,15 @@
+nav:
+    home: "Accueil"
+    chores: "Tableau des Tâches"
+    tenant_space: "Espace Locataire"
+    owner_space: "Espace Propriétaire"
+    logout: "Déconnexion"
+    login: "Connexion"
+home:
+    welcome: "Bienvenue dans votre colocation idéale !"
+    cta: "Accéder à mon espace"
+faq:
+    q1: "Comment fonctionne la répartition des charges ?"
+    a1: "Les charges sont calculées automatiquement au tantième configuré par votre propriétaire."
+    q2: "Le site respecte-t-il l'environnement ?"
+    a2: "Oui ! Notre architecture limite au strict minimum l'usage de scripts JavaScript lourds et de requêtes serveurs superflues."

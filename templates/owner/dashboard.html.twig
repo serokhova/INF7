@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Espace Gestion Propriétaire 💼</h1>
+<p>Vue d'ensemble simplifiée de vos encaissements et charges d'infrastructure.</p>
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 2rem;">
+    <div style="background: #e6ffed; border: 2px solid green; padding: 1.5rem; border-radius: 8px; flex: 1; min-width: 250px;">
+        <h3>Recettes Mensuelles Perçues</h3>
+        <p style="font-size: 2rem; font-weight: bold; margin: 0; color: green;">{{ analytics.total_revenue }} €</p>
+    </div>
+    <div style="background: #fff0f0; border: 2px solid red; padding: 1.5rem; border-radius: 8px; flex: 1; min-width: 250px;">
+        <h3>Total des Dépenses Communes</h3>
+        <p style="font-size: 2rem; font-weight: bold; margin: 0; color: red;">
+            {{ analytics.expenses.water + analytics.expenses.electricity + analytics.expenses.internet + analytics.expenses.taxes }} €
+        </p>
+    </div>
+</div>
+
+<h2>Détail des Charges (Eau, Électricité, Internet, Taxes)</h2>
+<ul>
+    <li><strong>Eau Courante :</strong> {{ analytics.expenses.water }} €</li>
+    <li><strong>Électricité :</strong> {{ analytics.expenses.electricity }} €</li>
+    <li><strong>Internet Fibre :</strong> {{ analytics.expenses.internet }} €</li>
+    <li><strong>Taxes Foncières :</strong> {{ analytics.expenses.taxes }} €</li>
+</ul>
+{% endblock %}
