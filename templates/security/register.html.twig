@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="card" style="max-width: 480px; margin: 2rem auto;">
+    <h1>{{ 'security.register_title'|trans }}</h1>
+    <p>{{ 'security.register_intro'|trans }}</p>
+
+    {{ form_start(form) }}
+        <div class="field">{{ form_row(form.firstName) }}</div>
+        <div class="field">{{ form_row(form.lastName) }}</div>
+        <div class="field">{{ form_row(form.email) }}</div>
+        <div class="field">{{ form_row(form.role) }}</div>
+        <div class="field">{{ form_row(form.plainPassword.first) }}</div>
+        <div class="field">{{ form_row(form.plainPassword.second) }}</div>
+        <button class="btn" type="submit" style="width: 100%;">{{ 'security.register_btn'|trans }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

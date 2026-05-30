@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,6 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Household $household = null;
 
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, nullable: true)]
+    #[Assert\Range(min: 0, max: 100, notInRangeMessage: 'Le tantième doit être entre {{ min }} et {{ max }}%.')]
+    private ?string $tantieme = null;
+
+    #[ORM\Column(type: 'decimal', precision: 8, scale: 2, nullable: true)]
+    #[Assert\PositiveOrZero]
+    private ?string $monthlyRent = null;
+
     public function getId(): ?int { return $this->id; }
     public function getEmail(): ?string { return $this->email; }
     public function setEmail(string $email): static { $this->email = $email; return $this; }
@@ -57,4 +63,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): static { $this->lastName = $lastName; return $this; }
     public function getHousehold(): ?Household { return $this->household; }
     public function setHousehold(?Household $household): static { $this->household = $household; return $this; }
+    public function getTantieme(): ?string { return $this->tantieme; }
+    public function setTantieme(?string $tantieme): static { $this->tantieme = $tantieme; return $this; }
+    public function getMonthlyRent(): ?string { return $this->monthlyRent; }
+    public function setMonthlyRent(?string $monthlyRent): static { $this->monthlyRent = $monthlyRent; return $this; }
+
+    public function getFullName(): string
+    {
+        return trim(($this->firstName ?? '') . ' ' . ($this->lastName ?? ''));
+    }
 }

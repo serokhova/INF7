@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>{{ 'owner.expenses_title'|trans }} — {{ household.name }}</h1>
+<a href="{{ path('app_owner_dashboard') }}">&larr; {{ 'owner.back'|trans }}</a>
+
+<div class="card" style="margin-top: 1rem;">
+    <h2>{{ 'owner.add_expense'|trans }}</h2>
+    {{ form_start(form) }}
+        <div class="field">{{ form_row(form.category) }}</div>
+        <div class="field">{{ form_row(form.label) }}</div>
+        <div class="field">{{ form_row(form.amount) }}</div>
+        <div class="field">{{ form_row(form.period) }}</div>
+        <button class="btn" type="submit">{{ 'form.add'|trans }}</button>
+    {{ form_end(form) }}
+</div>
+
+<h2>{{ 'owner.expense_list'|trans }}</h2>
+{% if expenses|length == 0 %}
+    <p>{{ 'owner.no_expense'|trans }}</p>
+{% else %}
+<table>
+    <thead>
+        <tr>
+            <th>{{ 'tenant.period'|trans }}</th>
+            <th>{{ 'form.category'|trans }}</th>
+            <th>{{ 'form.label'|trans }}</th>
+            <th>{{ 'form.amount'|trans }}</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for e in expenses %}
+        <tr>
+            <td>{{ e.period }}</td>
+            <td>{{ ('expense.' ~ e.category)|trans }}</td>
+            <td>{{ e.label }}</td>
+            <td>{{ e.amount }} €</td>
+            <td>
+                <form method="post" action="{{ path('app_owner_expense_delete', {'id': e.id}) }}" style="display:inline" onsubmit="return confirm('{{ 'form.confirm_delete'|trans }}')">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-expense-' ~ e.id) }}">
+                    <button class="btn btn-danger" type="submit">🗑</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

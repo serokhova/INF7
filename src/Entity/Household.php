@@ -28,6 +28,9 @@ class Household
     #[ORM\OneToMany(mappedBy: 'household', targetEntity: User::class)]
     private Collection $tenants;
 
+    #[ORM\Column(type: 'decimal', precision: 8, scale: 2, options: ['default' => 0])]
+    private string $monthlyCharges = '0.00';
+
     public function __construct()
     {
         $this->tenants = new ArrayCollection();
@@ -41,6 +44,8 @@ class Household
     public function getOwner(): ?User { return $this->owner; }
     public function setOwner(?User $owner): static { $this->owner = $owner; return $this; }
     public function getTenants(): Collection { return $this->tenants; }
+    public function getMonthlyCharges(): string { return $this->monthlyCharges; }
+    public function setMonthlyCharges(string $monthlyCharges): static { $this->monthlyCharges = $monthlyCharges; return $this; }
 
     public function addTenant(User $tenant): static
     {
@@ -55,7 +60,6 @@ class Household
     public function removeTenant(User $tenant): static
     {
         if ($this->tenants->removeElement($tenant)) {
-            // set the owning side to null (unless already changed)
             if ($tenant->getHousehold() === $this) {
                 $tenant->setHousehold(null);
             }

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="card" style="max-width: 700px; margin: 1.5rem auto;">
+    <h1>{{ 'tenant.receipt_title'|trans }} — {{ payment.period }}</h1>
+
+    <p><strong>{{ 'tenant.tenant'|trans }} :</strong> {{ payment.tenant.fullName }} ({{ payment.tenant.email }})</p>
+    <p><strong>{{ 'tenant.house'|trans }} :</strong> {{ payment.household.name }} — {{ payment.household.address }}</p>
+    <p><strong>{{ 'tenant.owner'|trans }} :</strong> {{ payment.household.owner.fullName }}</p>
+
+    <table style="margin-top: 1rem;">
+        <tr><th>{{ 'tenant.rent'|trans }}</th><td>{{ payment.rentAmount }} €</td></tr>
+        <tr><th>{{ 'tenant.charges'|trans }}</th><td>{{ payment.chargesAmount }} €</td></tr>
+        <tr><th>{{ 'tenant.total'|trans }}</th><td><strong>{{ payment.totalAmount }} €</strong></td></tr>
+        <tr><th>{{ 'tenant.status'|trans }}</th><td>{{ ('status.' ~ payment.status)|trans }}</td></tr>
+        <tr><th>{{ 'tenant.paid_at'|trans }}</th><td>{{ payment.paidAt ? payment.paidAt|date('d/m/Y H:i') : '—' }}</td></tr>
+    </table>
+
+    <p style="margin-top: 1rem;">
+        <a href="{{ path('app_tenant_dashboard') }}" class="btn btn-secondary">&larr; {{ 'tenant.back'|trans }}</a>
+        <a href="javascript:window.print()" class="btn">🖨️ {{ 'tenant.print'|trans }}</a>
+    </p>
+</div>
+{% endblock %}

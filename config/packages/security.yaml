@@ -40,4 +40,6 @@ security:
         - { path: '^/[a-z]{2}/owner', roles: ROLE_OWNER }
         - { path: '^/[a-z]{2}/tenant', roles: ROLE_TENANT }
         - { path: '^/[a-z]{2}/chores', roles: ROLE_USER }
+        - { path: '^/[a-z]{2}/messages', roles: ROLE_USER }
+        - { path: '^/[a-z]{2}/change-password', roles: ROLE_USER }
         - { path: '^/[a-z]{2}/api', roles: ROLE_USER }

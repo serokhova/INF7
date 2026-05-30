@@ -1,64 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Le Semainier des Colocs 🧹</h1>
-<p>Organisation collective et détendue de la maison. Chaque tâche accomplie rapporte des points !</p>
+<h1>{{ 'chore.title'|trans }} 🧹</h1>
+<p>{{ 'chore.intro'|trans }}</p>
 
-<style>
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 10px;
-        margin-top: 2rem;
-    }
-    .day-card {
-        border: 2px solid var(--gold);
-        background: #fff;
-        border-radius: 8px;
-        padding: 10px;
-    }
-    .day-card h2 {
-        background: var(--primary);
-        margin: -10px -10px 10px -10px;
-        padding: 5px;
-        font-size: 1.1rem;
-        text-align: center;
-    }
-    .task-item {
-        background: #fbf0db;
-        border-left: 4px solid var(--gold);
-        padding: 5px;
-        margin-bottom: 8px;
-        font-size: 0.85rem;
-    }
-    .badge {
-        display: inline-block;
-        background: var(--dark-brown);
-        color: white;
-        padding: 2px 5px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-    }
-</style>
+{% if household is null %}
+    <div class="card"><p>{{ 'chore.no_house'|trans }}</p></div>
+{% else %}
+    <p><strong>{{ 'chore.week'|trans }} {{ week }} / {{ year }}</strong> — {{ household.name }}</p>
 
-<div class="calendar-grid">
-    {% for day in ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
-        <div class="day-card">
-            <h2>{{ day }}</h2>
-            {% if day == 'Lundi' %}
-                <div class="task-item">
-                    <strong>Vaisselle</strong> <br>
-                    <span class="badge">Sophie</span>
-                </div>
-            {% elseif day == 'Mercredi' %}
-                <div class="task-item">
-                    <strong>Ménage Salon</strong> <br>
-                    <span class="badge">Julien</span>
-                </div>
-            {% else %}
-                <p style="font-size:0.8rem; color: gray; text-align:center;">Rien de prévu</p>
-            {% endif %}
-        </div>
-    {% endfor %}
-</div>
+    <style>
+        .calendar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 1rem; }
+        .day-card { border: 2px solid var(--gold); background: #fff; border-radius: 8px; padding: 10px; }
+        .day-card h2 { background: var(--primary); margin: -10px -10px 10px -10px; padding: 5px; font-size: 1rem; text-align: center; }
+        .task-item { background: #fbf0db; border-left: 4px solid var(--gold); padding: 6px; margin-bottom: 6px; font-size: 0.85rem; }
+        .task-item.done { background: #e6ffed; border-left-color: var(--green); text-decoration: line-through; }
+        .badge { display: inline-block; background: var(--dark-brown); color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.7rem; }
+    </style>
+
+    <div class="calendar-grid">
+        {% for day, items in by_day %}
+            <div class="day-card">
+                <h2>{{ ('day.' ~ day)|trans }}</h2>
+                {% if items|length == 0 %}
+                    <p style="font-size: 0.8rem; color: gray; text-align: center;">—</p>
+                {% else %}
+                    {% for a in items %}
+                        <div class="task-item {{ a.status == 'done' ? 'done' : '' }}">
+                            <strong>{{ a.task.title }}</strong> ({{ a.task.pointsValue }}pts)<br>
+                            <span class="badge">{{ a.assignedTo.firstName }}</span>
+                            {% if a.status != 'done' and (a.assignedTo == app.user or household.owner == app.user) %}
+                                <form method="post" action="{{ path('app_chores_done', {'id': a.id}) }}" style="display:inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('chore-done-' ~ a.id) }}">
+                                    <button class="btn" style="padding: 2px 6px; font-size: 0.75rem; margin-top: 4px;" type="submit">✓ {{ 'chore.mark_done'|trans }}</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if can_assign %}
+    <section class="card" style="margin-top: 2rem;">
+        <h2>{{ 'chore.add_title'|trans }}</h2>
+        {{ form_start(form) }}
+            <div class="field">{{ form_row(form.task) }}</div>
+            <div class="field">{{ form_row(form.assignedTo) }}</div>
+            <div class="field">{{ form_row(form.day) }}</div>
+            <button class="btn" type="submit">{{ 'form.add'|trans }}</button>
+        {{ form_end(form) }}
+    </section>
+    {% endif %}
+{% endif %}
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="card" style="max-width: 480px; margin: 2rem auto;">
+    <h1>{{ 'tenant.pay_title'|trans }} 💳</h1>
+    <p>{{ 'tenant.pay_intro'|trans }}</p>
+    <p><strong>{{ 'tenant.my_rent'|trans }} :</strong> {{ user.monthlyRent ?? '0.00' }} €</p>
+    <p><em>{{ 'tenant.pay_mock_notice'|trans }}</em></p>
+
+    {{ form_start(form) }}
+        <div class="field">{{ form_row(form.period) }}</div>
+        <button class="btn" type="submit" style="width: 100%;">{{ 'tenant.pay_confirm'|trans }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

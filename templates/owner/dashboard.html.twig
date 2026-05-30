@@ -1,27 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Espace Gestion Propriétaire 💼</h1>
-<p>Vue d'ensemble simplifiée de vos encaissements et charges d'infrastructure.</p>
+<h1>{{ 'owner.dashboard_title'|trans }} 💼</h1>
+<p>{{ 'owner.intro'|trans({'%period%': period}) }}</p>
 
-<div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 2rem;">
-    <div style="background: #e6ffed; border: 2px solid green; padding: 1.5rem; border-radius: 8px; flex: 1; min-width: 250px;">
-        <h3>Recettes Mensuelles Perçues</h3>
-        <p style="font-size: 2rem; font-weight: bold; margin: 0; color: green;">{{ analytics.total_revenue }} €</p>
-    </div>
-    <div style="background: #fff0f0; border: 2px solid red; padding: 1.5rem; border-radius: 8px; flex: 1; min-width: 250px;">
-        <h3>Total des Dépenses Communes</h3>
-        <p style="font-size: 2rem; font-weight: bold; margin: 0; color: red;">
-            {{ analytics.expenses.water + analytics.expenses.electricity + analytics.expenses.internet + analytics.expenses.taxes }} €
+{% if households|length == 0 %}
+    <div class="card"><p>{{ 'owner.no_house'|trans }}</p></div>
+{% endif %}
+
+{% for entry in households %}
+    {% set h = entry.household %}
+    <section class="card">
+        <h2>🏠 {{ h.name }}</h2>
+        <p>{{ h.address }}</p>
+
+        <div style="display:flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="background: #e6ffed; border: 2px solid var(--green); padding: 1rem; border-radius: 8px; flex:1; min-width:220px;">
+                <h3>{{ 'owner.revenue'|trans }}</h3>
+                <p style="font-size: 1.6rem; font-weight: bold; margin: 0; color: var(--green);">{{ entry.total_received|number_format(2, ',', ' ') }} €</p>
+            </div>
+            <div style="background: #fff0f0; border: 2px solid var(--red); padding: 1rem; border-radius: 8px; flex:1; min-width:220px;">
+                <h3>{{ 'owner.expenses'|trans }}</h3>
+                <p style="font-size: 1.6rem; font-weight: bold; margin: 0; color: var(--red);">{{ entry.total_expenses|number_format(2, ',', ' ') }} €</p>
+            </div>
+            <div style="background: #fffbe6; border: 2px solid var(--gold); padding: 1rem; border-radius: 8px; flex:1; min-width:220px;">
+                <h3>{{ 'owner.balance'|trans }}</h3>
+                <p style="font-size: 1.6rem; font-weight: bold; margin: 0;">{{ entry.balance|number_format(2, ',', ' ') }} €</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 1.5rem;">{{ 'owner.expense_detail'|trans }}</h3>
+        {% if entry.expenses_by_category|length == 0 %}
+            <p>{{ 'owner.no_expense'|trans }}</p>
+        {% else %}
+        <ul>
+            {% for cat, amount in entry.expenses_by_category %}
+                <li><strong>{{ ('expense.' ~ cat)|trans }} :</strong> {{ amount|number_format(2, ',', ' ') }} €</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p style="margin-top: 1rem;">
+            <a href="{{ path('app_owner_expenses', {'id': h.id}) }}" class="btn">{{ 'owner.manage_expenses'|trans }}</a>
+            <a href="{{ path('app_owner_tenants', {'id': h.id}) }}" class="btn btn-secondary">{{ 'owner.manage_tenants'|trans }}</a>
         </p>
-    </div>
-</div>
-
-<h2>Détail des Charges (Eau, Électricité, Internet, Taxes)</h2>
-<ul>
-    <li><strong>Eau Courante :</strong> {{ analytics.expenses.water }} €</li>
-    <li><strong>Électricité :</strong> {{ analytics.expenses.electricity }} €</li>
-    <li><strong>Internet Fibre :</strong> {{ analytics.expenses.internet }} €</li>
-    <li><strong>Taxes Foncières :</strong> {{ analytics.expenses.taxes }} €</li>
-</ul>
+    </section>
+{% endfor %}
 {% endblock %}

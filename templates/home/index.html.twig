@@ -3,18 +3,24 @@
 {% block body %}
 <section style="text-align: center; padding: 2rem 0;">
     <h1>{{ 'home.welcome'|trans }}</h1>
-    <p style="font-size: 1.2rem; max-width: 600px; margin: 1rem auto;">
-        Gérer sa colocation n'a jamais été aussi simple, léger et convivial. Finies les prises de tête pour la vaisselle ou les comptes !
-    </p>
+    <p style="font-size: 1.2rem; max-width: 700px; margin: 1rem auto;">{{ 'home.subtitle'|trans }}</p>
     <a href="{{ path('app_login') }}" class="btn" style="font-size: 1.1rem; padding: 0.8rem 2rem;">{{ 'home.cta'|trans }}</a>
+    <a href="{{ path('app_register') }}" class="btn btn-secondary" style="font-size: 1.1rem; padding: 0.8rem 2rem; margin-left: 0.5rem;">{{ 'nav.register'|trans }}</a>
+</section>
+
+<section style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem;">
+    <div class="card"><h3>🏠 {{ 'home.feature.rent.title'|trans }}</h3><p>{{ 'home.feature.rent.text'|trans }}</p></div>
+    <div class="card"><h3>💰 {{ 'home.feature.charges.title'|trans }}</h3><p>{{ 'home.feature.charges.text'|trans }}</p></div>
+    <div class="card"><h3>🧹 {{ 'home.feature.chores.title'|trans }}</h3><p>{{ 'home.feature.chores.text'|trans }}</p></div>
+    <div class="card"><h3>💬 {{ 'home.feature.messages.title'|trans }}</h3><p>{{ 'home.feature.messages.text'|trans }}</p></div>
 </section>
 
 <hr style="border: 0; border-top: 2px solid var(--primary); margin: 3rem 0;">
 
 <section id="faq">
-    <h2>Foire Aux Questions (FAQ)</h2>
+    <h2>{{ 'home.faq_title'|trans }}</h2>
     {% for faq in faqs %}
-        <details style="background: #fff; border: 1px solid var(--gold); padding: 1rem; margin-bottom: 1rem; border-radius: 6px;">
+        <details class="card" style="padding: 1rem;">
             <summary style="font-weight: bold; cursor: pointer; color: var(--gold);">{{ faq.q|trans }}</summary>
             <p style="margin-top: 0.5rem; margin-left: 1rem;">{{ faq.a|trans }}</p>
         </details>
