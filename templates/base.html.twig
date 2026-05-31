@@ -9,15 +9,24 @@
     <meta property="og:title" content="{% block og_title %}{{ meta_title ?? 'ColocChaleureuse' }}{% endblock %}">
     <meta property="og:type" content="website">
     <link rel="canonical" href="{{ app.request.uri }}">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ffaa00'/%3E%3Ctext x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-size='34' font-weight='bold' fill='%23553900'%3EC%3C/text%3E%3C/svg%3E">
+    {% set current_route = app.request.attributes.get('_route') %}
+    {% set route_params = app.request.attributes.get('_route_params')|default({}) %}
+    {% if current_route %}
+        {% for locale in ['fr', 'en'] %}
+            <link rel="alternate" hreflang="{{ locale }}" href="{{ url(current_route, route_params|merge({'_locale': locale})) }}">
+        {% endfor %}
+    {% endif %}
+    {% block json_ld %}{% endblock %}
 
     <style>
         :root {
             --primary: #ffaa00;
             --dark-brown: #553900;
-            --gold: #aa7100;
+            --gold: #8a5c00;
             --bg-light: #fffdf9;
-            --green: #2d7a2d;
-            --red: #b32424;
+            --green: #1e5a1e;
+            --red: #a01c1c;
         }
         * { box-sizing: border-box; }
         body {

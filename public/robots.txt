@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Espaces utilisateurs : pages dynamiques propres à un compte connecté
+Disallow: /fr/owner/
+Disallow: /en/owner/
+Disallow: /fr/tenant/
+Disallow: /en/tenant/
+Disallow: /fr/chores
+Disallow: /en/chores
+Disallow: /fr/messages
+Disallow: /en/messages
+Disallow: /fr/change-password
+Disallow: /en/change-password
+
+# API privée (HTTP Basic)
+Disallow: /fr/api/
+Disallow: /en/api/
+
+# Mécanique de reset (tokens uniques)
+Disallow: /fr/reset-password/
+Disallow: /en/reset-password/
+
+Sitemap: http://127.0.0.1:8800/sitemap.xml

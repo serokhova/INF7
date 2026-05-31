@@ -5,6 +5,9 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    # Allow indexing in all environments — the X-Robots-Tag is controlled via robots.txt
+    disallow_search_engine_index: false
+
     #esi: true
     #fragments: true
 

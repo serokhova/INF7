@@ -16,6 +16,7 @@ home:
     welcome: "Bienvenue dans votre colocation idéale !"
     subtitle: "Gérer sa colocation n'a jamais été aussi simple, léger et convivial. Loyers, charges, ménage, messages : tout est centralisé et éco-conçu."
     cta: "Accéder à mon espace"
+    features_title: "Les fonctionnalités principales"
     faq_title: "Foire Aux Questions (FAQ)"
     feature:
         rent:

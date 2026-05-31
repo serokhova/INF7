@@ -16,6 +16,7 @@ home:
     welcome: "Welcome to your perfect shared home!"
     subtitle: "Managing a flatshare has never been simpler, lighter and friendlier. Rent, charges, cleaning, messages — everything in one eco-designed place."
     cta: "Go to my dashboard"
+    features_title: "Main features"
     faq_title: "Frequently Asked Questions"
     feature:
         rent:

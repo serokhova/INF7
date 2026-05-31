@@ -1,5 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% block json_ld %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ColocChaleureuse",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "description": "{{ meta_desc|default('Gestion éco-conçue de colocation.') }}",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+    "inLanguage": ["fr", "en"]
+}
+</script>
+{% endblock %}
+
 {% block body %}
 <section style="text-align: center; padding: 2rem 0;">
     <h1>{{ 'home.welcome'|trans }}</h1>
@@ -8,11 +23,14 @@
     <a href="{{ path('app_register') }}" class="btn btn-secondary" style="font-size: 1.1rem; padding: 0.8rem 2rem; margin-left: 0.5rem;">{{ 'nav.register'|trans }}</a>
 </section>
 
-<section style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem;">
-    <div class="card"><h3>🏠 {{ 'home.feature.rent.title'|trans }}</h3><p>{{ 'home.feature.rent.text'|trans }}</p></div>
-    <div class="card"><h3>💰 {{ 'home.feature.charges.title'|trans }}</h3><p>{{ 'home.feature.charges.text'|trans }}</p></div>
-    <div class="card"><h3>🧹 {{ 'home.feature.chores.title'|trans }}</h3><p>{{ 'home.feature.chores.text'|trans }}</p></div>
-    <div class="card"><h3>💬 {{ 'home.feature.messages.title'|trans }}</h3><p>{{ 'home.feature.messages.text'|trans }}</p></div>
+<section aria-labelledby="features-heading">
+    <h2 id="features-heading" class="visually-hidden" style="position:absolute; left:-9999px;">{{ 'home.features_title'|trans }}</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem;">
+        <div class="card"><h3>🏠 {{ 'home.feature.rent.title'|trans }}</h3><p>{{ 'home.feature.rent.text'|trans }}</p></div>
+        <div class="card"><h3>💰 {{ 'home.feature.charges.title'|trans }}</h3><p>{{ 'home.feature.charges.text'|trans }}</p></div>
+        <div class="card"><h3>🧹 {{ 'home.feature.chores.title'|trans }}</h3><p>{{ 'home.feature.chores.text'|trans }}</p></div>
+        <div class="card"><h3>💬 {{ 'home.feature.messages.title'|trans }}</h3><p>{{ 'home.feature.messages.text'|trans }}</p></div>
+    </div>
 </section>
 
 <hr style="border: 0; border-top: 2px solid var(--primary); margin: 3rem 0;">
